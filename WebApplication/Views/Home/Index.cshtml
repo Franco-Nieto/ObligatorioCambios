@@ -1,0 +1,33 @@
+﻿@model WebApplication.ViewModels.HomeIndexViewModel
+
+@{
+   ViewBag.Title = "Pagina Principal";
+}
+@section styles {
+   <link href="~/Content/HomeIndex.css" rel="stylesheet" />
+}
+<main>
+   <div class="banner-en-vivo bg-light p-4 rounded shadow-sm text-center">
+      <h2 class="mb-2">
+         🎙️ En vivo ahora: @(ViewBag.ProgramaEnVivo != null ? ViewBag.ProgramaEnVivo.Nombre : "")
+      </h2>
+      <p class="text-muted">@(ViewBag.ProgramaEnVivo != null ? ViewBag.ProgramaEnVivo.Descripcion : "")</p>
+      <p class="text-muted">Duracion: @(ViewBag.ProgramaEnVivo != null ? ViewBag.ProgramaEnVivo.Duracion : "")</p>
+
+      <audio id="radioPlayer" src="" preload="none"></audio>
+
+      <button class="btn btn-success mt-3" onclick="document.getElementById('radioPlayer').play()">
+         ▶️ Escuchar en vivo
+      </button>
+   </div>
+
+   <h3>Siguienes programas</h3>
+   @Html.Partial("_ProximosProgramas", Model.siguientesProgramas)
+   <h3>Resumen del dia de hoy</h3>
+   @Html.Partial("_ProgramacionDiaria", Model.programacionDiaria)
+   <h3>Patrocinadores</h3>
+   @Html.Partial("_Patrocinadores", Model.patrocinadores)
+   <h3>Noticias</h3>
+   @Html.Partial("_Noticias", Model.noticiasResumen)
+
+</main>
