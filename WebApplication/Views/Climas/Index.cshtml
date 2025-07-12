@@ -1,63 +1,139 @@
-﻿@model IEnumerable<WebApplication.Models.Clima>
+﻿@model Tuple<List<WebApplication.Models.Clima>, List<WebApplication.Models.Clima>>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pronóstico Clima";
+
+    var climaDelDia = Model.Item1;
+    var pronosticos = Model.Item2;
+
+    var climaActual = climaDelDia
+        .Where(c => c.Fecha.Hour != 9 && c.Fecha.Hour != 12 && c.Fecha.Hour != 18)
+        .OrderByDescending(c => c.Fecha)
+        .FirstOrDefault();
 }
 
-<h2>Index</h2>
+<style>
+    .clima-container {
+        background-color: #a9cfff;
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Temperatura)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Icono)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Humedad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Viento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Condicion)
-        </th>
-        <th></th>
-    </tr>
+    .clima-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Temperatura)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Icono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Humedad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Viento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Condicion)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+        .clima-table th, .clima-table td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
 
-</table>
+        .clima-table th {
+            background-color: rgb(0, 148, 255);
+            color: white;
+        }
+
+    .icon-cell {
+        background-color: #b0c8e8;
+        border-radius: 8px;
+    }
+
+        .icon-cell img {
+            width: 50px;
+            height: 50px;
+        }
+
+    .clima-actual {
+        background-color: #b0c8e8;
+        padding: 25px;
+        border-radius: 12px;
+        margin-top: 30px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .datos-clima {
+        flex: 1;
+        padding-right: 20px;
+    }
+
+    .icono-clima img {
+        width: 80px;
+        height: 80px;
+    }
+
+    h2.titulo-clima-hoy {
+        margin: 0 20px 0 0;
+        white-space: nowrap;
+    }
+</style>
+
+<!-- CLIMA ACTUAL -->
+<div class="clima-actual">
+    <h2 class="titulo-clima-hoy">Clima de hoy</h2>
+
+    @if (climaActual != null)
+    {
+        <div class="datos-clima">
+            <p><strong>Fecha y Hora:</strong> @climaActual.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Temperatura:</strong> @climaActual.Temperatura °C</p>
+            <p><strong>Humedad:</strong> @climaActual.Humedad %</p>
+            <p><strong>Viento:</strong> @climaActual.Viento km/h</p>
+            <p><strong>Condición:</strong> @climaActual.Condicion</p>
+        </div>
+
+        <div class="icono-clima">
+            @if (!string.IsNullOrEmpty(climaActual.Icono))
+            {
+                <img src="@($"https://openweathermap.org/img/wn/{climaActual.Icono}@2x.png")" alt="Icono Clima" />
+            }
+        </div>
+    }
+    else
+    {
+        <p>No hay datos de clima actual disponibles.</p>
+    }
+</div>
+
+<!-- PRONÓSTICO -->
+<div class="clima-container">
+    <h2>Pronóstico del Clima</h2>
+
+    <table class="clima-table">
+        <thead>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Temperatura (°C)</th>
+                <th>Humedad (%)</th>
+                <th>Viento (km/h)</th>
+                <th>Condición</th>
+                <th>Icono</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pronosticos)
+            {
+                <tr>
+                    <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.Temperatura.ToString("F1")</td>
+                    <td>@item.Humedad</td>
+                    <td>@item.Viento</td>
+                    <td>@item.Condicion</td>
+                    <td class="icon-cell">
+                        @if (!string.IsNullOrEmpty(item.Icono))
+                        {
+                            <img src="https://openweathermap.org/img/wn/@(item.Icono).png" alt="Icono" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

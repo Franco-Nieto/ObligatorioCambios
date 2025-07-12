@@ -1,49 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebApplication.Models;
+using WebApplication.Servicios;
 
 namespace WebApplication.Controllers
 {
     public class ClimasController : Controller
     {
         private VozDelEsteContext db = new VozDelEsteContext();
+        private ClimaService _service = new ClimaService();
 
-        // GET: Climas
-        public ActionResult Index()
+        // INDEX: muestra clima actual y pronóstico (últimos 15)
+        public async Task<ActionResult> Index()
         {
-            return View(db.Clima.ToList());
+            await _service.ActualizarClimaActualAsync();
+            await _service.ActualizarPronosticoAsync();
+
+            using (var context = new VozDelEsteContext())
+            {
+                var hoy = DateTime.Today;
+                var manana = hoy.AddDays(1);
+
+                var climaDelDia = context.Clima
+                    .Where(c => c.Fecha >= hoy && c.Fecha < manana)
+                    .OrderBy(c => c.Fecha)
+                    .ToList();
+
+                var pronosticos = context.Clima
+                    .Where(c => c.Fecha.Hour == 9 || c.Fecha.Hour == 12 || c.Fecha.Hour == 18)
+                    .OrderByDescending(c => c.Id)
+                    .Take(15)
+                    .OrderBy(c => c.Fecha)
+                    .ToList();
+
+                return View(Tuple.Create(climaDelDia, pronosticos));
+            }
         }
 
-        // GET: Climas/Details/5
+
+
+
+
+        // DETALLES
         public ActionResult Details(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Clima clima = db.Clima.Find(id);
             if (clima == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(clima);
         }
 
-        // GET: Climas/Create
+        // CREAR GET
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Climas/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        // CREAR POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Fecha,Temperatura,Icono,Humedad,Viento,Condicion")] Clima clima)
@@ -58,24 +79,20 @@ namespace WebApplication.Controllers
             return View(clima);
         }
 
-        // GET: Climas/Edit/5
+        // EDITAR GET
         public ActionResult Edit(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Clima clima = db.Clima.Find(id);
             if (clima == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(clima);
         }
 
-        // POST: Climas/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        // EDITAR POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Fecha,Temperatura,Icono,Humedad,Viento,Condicion")] Clima clima)
@@ -86,25 +103,24 @@ namespace WebApplication.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(clima);
         }
 
-        // GET: Climas/Delete/5
+        // BORRAR GET
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Clima clima = db.Clima.Find(id);
             if (clima == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(clima);
         }
 
-        // POST: Climas/Delete/5
+        // BORRAR POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -118,9 +134,8 @@ namespace WebApplication.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 db.Dispose();
-            }
+
             base.Dispose(disposing);
         }
     }

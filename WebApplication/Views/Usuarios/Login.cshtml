@@ -1,0 +1,17 @@
+﻿@model WebApplication.Models.Usuario
+
+@using (Html.BeginForm("Login", "Usuarios", FormMethod.Post))
+{
+    <label>Usuario:</label>
+    @Html.TextBoxFor(e => e.NombreUsuario,new {@class="form-control"})
+
+    <label>Contraseña:</label>
+    @Html.TextBoxFor(e => e.Clave, new { @class = "form-control" })
+
+    <button class="btn btn-success" type="submit">Iniciar sesión</button>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Mensaje))
+{
+    <p style="color:red">@ViewBag.Mensaje</p>
+}

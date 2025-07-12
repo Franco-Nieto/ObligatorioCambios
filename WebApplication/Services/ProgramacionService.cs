@@ -62,8 +62,8 @@ namespace WebApplication.Services
       public List<ProgramaDTO> ObtenerProgramacionSemanal()
       {
          var ahora = DateTime.Now;
-         var inicioSemana = ahora.Date.AddDays(-(int)ahora.DayOfWeek); // Domingo
-         var finSemana = inicioSemana.AddDays(7);                      // Próximo domingo
+         var inicioSemana = ahora.Date.AddDays(-(int)ahora.DayOfWeek);
+         var finSemana = inicioSemana.AddDays(7);                     
 
          var programas = _contexto.Programacion
              .Where(p => p.FechaHorario >= inicioSemana && p.FechaHorario < finSemana)

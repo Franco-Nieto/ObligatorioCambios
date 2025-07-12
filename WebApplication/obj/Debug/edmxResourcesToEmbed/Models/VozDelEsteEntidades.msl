@@ -33,17 +33,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CotizacionMoneda">
-      <EntityTypeMapping TypeName="VozDelEsteBDModel.CotizacionMoneda">
-        <MappingFragment StoreEntitySet="CotizacionMoneda">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-          <ScalarProperty Name="TipoMoneda" ColumnName="TipoMoneda" />
-          <ScalarProperty Name="ValorCompra" ColumnName="ValorCompra" />
-          <ScalarProperty Name="ValorVenta" ColumnName="ValorVenta" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Noticia">
       <EntityTypeMapping TypeName="VozDelEsteBDModel.Noticia">
         <MappingFragment StoreEntitySet="Noticia">
@@ -149,5 +138,15 @@
         <ScalarProperty Name="Id" ColumnName="UsuarioID" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="CotizacionMoneda">
+      <EntityTypeMapping TypeName="VozDelEsteBDModel.CotizacionMoneda">
+        <MappingFragment StoreEntitySet="CotizacionMoneda">
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="TipoMoneda" ColumnName="TipoMoneda" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

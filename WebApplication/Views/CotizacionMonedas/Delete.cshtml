@@ -28,24 +28,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ValorCompra)
+            @Html.DisplayNameFor(model => model.Valor)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ValorCompra)
+            @Html.DisplayFor(model => model.Valor)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ValorVenta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ValorVenta)
-        </dd>
-
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

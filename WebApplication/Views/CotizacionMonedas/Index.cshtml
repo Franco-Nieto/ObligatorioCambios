@@ -1,51 +1,27 @@
 ﻿@model IEnumerable<WebApplication.Models.CotizacionMoneda>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cotizaciones del Día";
 }
 
-<h2>Index</h2>
+<h2>Cotizaciones del Día (@DateTime.Today.ToShortDateString())</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoMoneda)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ValorCompra)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ValorVenta)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoMoneda)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ValorCompra)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ValorVenta)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+<table class="table table-bordered table-striped" style="width: 100%; text-align: center;">
+    <thead>
+        <tr>
+            <th style="text-align: center;">Fecha</th>
+            <th style="text-align: center;">Tipo de Moneda</th>
+            <th style="text-align: center;">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Fecha.ToShortDateString()</td>
+                <td>@item.TipoMoneda</td>
+                <td>@item.Valor.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
 </table>

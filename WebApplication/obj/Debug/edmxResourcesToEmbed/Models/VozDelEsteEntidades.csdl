@@ -33,16 +33,6 @@
     <NavigationProperty Name="Persona" Relationship="Self.FK__Conductor__Perso__06CD04F7" FromRole="Conductor" ToRole="Persona" />
     <NavigationProperty Name="ProgramaRadio" Relationship="Self.ConductorProgramaRadio" FromRole="Conductor" ToRole="ProgramaRadio" />
   </EntityType>
-  <EntityType Name="CotizacionMoneda">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="TipoMoneda" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="ValorCompra" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-    <Property Name="ValorVenta" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-  </EntityType>
   <EntityType Name="Noticia">
     <Key>
       <PropertyRef Name="Id" />
@@ -204,7 +194,6 @@
     <EntitySet Name="Clima" EntityType="Self.Clima" />
     <EntitySet Name="ComentarioPrograma" EntityType="Self.ComentarioPrograma" />
     <EntitySet Name="Conductor" EntityType="Self.Conductor" />
-    <EntitySet Name="CotizacionMoneda" EntityType="Self.CotizacionMoneda" />
     <EntitySet Name="Noticia" EntityType="Self.Noticia" />
     <EntitySet Name="Patrocinador" EntityType="Self.Patrocinador" />
     <EntitySet Name="Permiso" EntityType="Self.Permiso" />
@@ -245,5 +234,15 @@
       <End Role="Rol" EntitySet="Rol" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
+    <EntitySet Name="CotizacionMoneda" EntityType="VozDelEsteBDModel.CotizacionMoneda" />
   </EntityContainer>
+  <EntityType Name="CotizacionMoneda">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TipoMoneda" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Valor" Type="Decimal" Nullable="false" Precision="18" Scale="8" />
+  </EntityType>
 </Schema>

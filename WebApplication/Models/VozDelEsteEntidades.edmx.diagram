@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="VozDelEsteBDModel.Clima" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VozDelEsteBDModel.ComentarioPrograma" Width="1.5" PointX="7.5" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="VozDelEsteBDModel.Conductor" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VozDelEsteBDModel.CotizacionMoneda" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VozDelEsteBDModel.Noticia" Width="1.5" PointX="3.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VozDelEsteBDModel.Patrocinador" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VozDelEsteBDModel.Permiso" Width="1.5" PointX="1.5" PointY="7.25" IsExpanded="true" />
@@ -25,6 +24,7 @@
         <AssociationConnector Association="VozDelEsteBDModel.ConductorProgramaRadio" ManuallyRouted="false" />
         <AssociationConnector Association="VozDelEsteBDModel.RolPermiso" ManuallyRouted="false" />
         <AssociationConnector Association="VozDelEsteBDModel.UsuarioRol" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="VozDelEsteBDModel.CotizacionMoneda" Width="1.5" PointX="7.875" PointY="1.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
